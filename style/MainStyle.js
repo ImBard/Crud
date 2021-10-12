@@ -2,14 +2,12 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#555',
+      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
       padding: 10
     },
     phone: {
-      width: 414,
-      height: 736,
       padding: 10,
       backgroundColor:'#fff',
       borderRadius: 25,
@@ -34,12 +32,15 @@ const styles = StyleSheet.create({
     },
     maskedInput: {
       flexGrow: 1,
+      margin: 'auto',
+      width: 304,
+      justifyContent:'center',
+      alignItems:'center',      
       height: 40,
       fontSize: 18,
-      borderBottomWidth: 1,
+      borderBottomWidth: 2,
       borderBottomColor: "#999",
-      borderStyle: "solid",
-      alignSelf: "flex-start"
+      borderStyle: "solid"
     },
     containerMask: {
       flexDirection: "row",
@@ -54,6 +55,31 @@ const styles = StyleSheet.create({
       marginLeft: 15,
       color: "#f00",
     },
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#000',
+      width: 150,
+      height: 45,
+      borderRadius: 25,
+      margin: 20
+    },
+    lista: {
+      margin:5, 
+      backgroundColor: '#fff', 
+      borderRadius: 10, 
+      padding: 10
+    },
+    headerLista: {
+      fontSize: 20, 
+      width: '100%', 
+      textAlign: 'center', 
+      fontWeight: 'bold'
+    },
+    titulo: {
+      justifyContent: "flex-start",
+      color: '#555'
+    }
   });
 
 export default styles;

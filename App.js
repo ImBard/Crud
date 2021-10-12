@@ -2,18 +2,25 @@ import * as React from 'react';
 import styles from './style/MainStyle';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import Crud from './src/Crud';
-import lista from './src/lista';
-import Post from './src/POST';
+import Post from './src/Cadastrar';
+import lista from './src/ListaUsuarios';
+import Login from './src/Login';
 
 const Stack = createStackNavigator();
 
 function MyStack() {
   return(
-    <Stack.Navigator>
+    <Stack.Navigator
+    initialRouteName="Login"
+      screenOptions={{
+        headerStyle: { backgroundColor: '#fff',height: 60},
+        headerTintColor: '#000',
+        headerTitleStyle: { fontWeight: 'bold' },
+        headerTitleAlign: 'center'
+      }}>
+      <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Post" component={Post} />
-      <Stack.Screen name="Crud" component={Crud} />
-      <Stack.Screen name="lista" component={lista} />
+      <Stack.Screen name='lista' component={lista}/>
     </Stack.Navigator>
   );
 }
