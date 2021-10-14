@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Button, TouchableOpacity, ImageBackground } from 'react-native';
 import { Input } from "react-native-elements";
-import styles from "../style/MainStyle";
 import { TextInputMask } from "react-native-masked-text";
+
+
+import styles from "../style/MainStyle";
 import userService from "../Services/UserServices";
+import CustomDialog from "../components/CustomDialog";
+
 
 export default function Post({navigation}) {
 
@@ -17,11 +21,22 @@ export default function Post({navigation}) {
     const [errorSenha, setErrorSenha] = useState(null)
     const [isLoading, setLoading] = useState(false)
     let datetimeField = null
+
+    const [visibleDialog, setVisibleDialog] = useState(false);
+    const [titulo, setTitulo] = useState(null);
+    const [mensagem, setMensagem] = useState(null);
+    const [tipo, setTipo] = useState(null);
     
-    // Se eu usar o useEffect quando carregar a pagina vai dar erro em todos os inputs, pois o use effect 'atualiza' as coisas toda vez que há uma renderização da pagina
-    /*useEffect(() => {
-        Enviar();
-    },[])*/
+    const showDialog = (titulo, mensagem, tipo) => {
+        setVisibleDialog(true)
+        setTitulo(titulo)
+        setMensagem(mensagem)
+        setTipo(tipo)
+    }
+    const hideDialog = (status) => {
+        setVisibleDialog(status)
+        navigation.navigate('Store list')
+    }
 
     const validate = () => {
         let error = false
@@ -48,7 +63,7 @@ export default function Post({navigation}) {
 
         const reSenha = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])(?!.*[.,\/#!$%\^&\*;:{}=\-_`~()]).{6,}$/;
         if(!reSenha.test(String(senha))){
-            setErrorSenha('tem q ter 8 digitos \n tem q ter letras minusculas e maiusculas \n conter numeros ')
+            setErrorSenha('- Conter 8 no minímo digitos \n- Letras minusculas e maiusculas \n- Conter numeros ')
             error = true
         }
 
@@ -65,89 +80,99 @@ export default function Post({navigation}) {
             userService.Cadastrar(data)
             .then((response) => {
                 setLoading(false)
-                console.log(response.data)
+                const titulo = (response.data.status)? 'Sucesso!' : "Erro"
+                showDialog(titulo, response.data.mensagem, "Sucesso")
             }).catch((error) => {
                 setLoading(false)
-                console.log(error)
-                console.log("Deu erro!")
+                showDialog("Erro", "Houve um erro inesperado", "Erro")
             })
         }
+
     }
 
     return(
+        <ImageBackground source={{uri: 'https://michelleismoneyhungry.com/wp-content/uploads/2014/11/store-1-vintage-2.jpg'}}
+            style={styles.container}
+        > 
         <View style={styles.container}>
-                <Input 
-                style={styles.input}
-                placeholder='Digite seu nome'
-                onChangeText={value => {
-                    setNome(value)
-                    setErrorNome(null)}}
+            <Text style={styles.titulo}>Cadastrar</Text>
+            <Input 
+            style={styles.input}
+            placeholder='Digite seu nome'
+            onChangeText={value => {
+                setNome(value)
+                setErrorNome(null)}}
+                returnKeyType='done'
+                errorMessage={errorNome}
+                maxLength={50}
+                inputStyle={styles.inputLogin}
+            />
+
+
+
+            <View style={styles.containerMask}>
+                <TextInputMask
+                    placeholder='DD/MM/YYYY'
+                    type={'datetime'}
+                    options={{
+                        format: 'DD/MM/YYYY'
+                    }}
+                    value={nascimento}
+                    onChangeText={value => {
+                        setNascimento(value)
+                        setErrorNascimento(null)
+                    }}
+                    keyboardType='numeric'
                     returnKeyType='done'
-                    errorMessage={errorNome}
-                    maxLength={50}
+                    style={styles.maskedInput}
+                    ref={(ref) => datetimeField = ref}
+                    placeholderTextColor='#91a4b5'
                 />
-
-
-
-                <View style={styles.containerMask}>
-                    <TextInputMask
-                        placeholder='DD/MM/YYYY'
-                        type={'datetime'}
-                        options={{
-                            format: 'DD/MM/YYYY'
-                        }}
-                        value={nascimento}
-                        onChangeText={value => {
-                            setNascimento(value)
-                            setErrorNascimento(null)
-                        }}
-                        keyboardType='numeric'
-                        returnKeyType='done'
-                        style={styles.maskedInput}
-                        ref={(ref) => datetimeField = ref}
-                    />
-                    <Text style={styles.errorMessage}>{errorNascimento}</Text>
-                </View>
-
-                <Input
-                style={styles.input}
-                    placeholder="E-mail"
-                    keyboardType="email-address"
-                    onChangeText={value => {
-                    setEmail(value)
-                    setErrorEmail(null)}}
-                    returnKeyType="done"
-                    errorMessage={errorEmail}
-                    maxLength={50}
-                />
-
-                <Input
-                    style={styles.input}
-                    placeholder='Senha'
-                    onChangeText={value => {
-                        setSenha(value)
-                        setErrorSenha(null)}}
-                    returnKeyType='go'
-                    errorMessage={errorSenha}
-                    secureTextEntry={true}
-                    maxLength={32}
-                    
-                />
-
-                {isLoading &&
-                <Text>...CARREGANDO!</Text>
-                }
-                {!isLoading &&
-                <TouchableOpacity style={styles.button}
-                    onPress={() => Enviar()}>
-                <Text style={{fontSize:20, color: '#fff'}}>Criar</Text>
-                </TouchableOpacity>
-                } 
-                <Button
-                    buttonStyle={{margin:20}}
-                    title='Lista!'
-                    onPress={() =>  navigation.navigate('lista')}
-                />
+                <Text style={styles.errorMessage}>{errorNascimento}</Text>
             </View>
+
+            <Input
+            style={styles.input}
+                placeholder="E-mail"
+                keyboardType="email-address"
+                onChangeText={value => {
+                setEmail(value)
+                setErrorEmail(null)}}
+                returnKeyType="done"
+                errorMessage={errorEmail}
+                maxLength={50}
+                inputStyle={styles.input}
+            />
+
+            <Input
+                style={styles.input}
+                placeholder='Senha'
+                onChangeText={value => {
+                    setSenha(value)
+                    setErrorSenha(null)}}
+                returnKeyType='go'
+                errorMessage={errorSenha}
+                secureTextEntry={true}
+                maxLength={32}
+                inputStyle={styles.input}
+                
+            />
+
+            {isLoading &&
+            <Text>...CARREGANDO!</Text>
+            }
+            {!isLoading &&
+            <TouchableOpacity style={[styles.button, {marginBottom: 100}]}
+                onPress={() => Enviar()}>
+            <Text style={{fontSize:20, color: '#000'}}>Criar</Text>
+            </TouchableOpacity>
+            } 
+
+            {visibleDialog &&
+            <CustomDialog titulo={titulo} mensagem={mensagem} tipo={tipo} visible={visibleDialog} onClose={hideDialog}></CustomDialog>
+            }
+
+        </View>
+        </ImageBackground>
     )
 }

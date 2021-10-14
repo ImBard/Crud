@@ -1,11 +1,21 @@
 import { StyleSheet } from "react-native";
+import { color } from "react-native-elements/dist/helpers";
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: '#555',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 10
+      width: '100%',
+      backgroundColor: 'rgba(35,35,35,0.89)',
+    },
+    imageContainer: {
+      flex: 1,
+      backgroundColor: '#555',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      
     },
     phone: {
       padding: 10,
@@ -27,38 +37,39 @@ const styles = StyleSheet.create({
       fontSize: 18,
       borderBottomWidth: 1,
       borderBottomColor: "#999",
-      borderStyle: "solid",
-      alignSelf: "flex-start"
+      color: '#fff'
     },
     maskedInput: {
       flexGrow: 1,
       margin: 'auto',
-      width: 304,
+      width: '100%',
       justifyContent:'center',
       alignItems:'center',      
       height: 40,
       fontSize: 18,
       borderBottomWidth: 2,
-      borderBottomColor: "#999",
-      borderStyle: "solid"
+      borderBottomColor: "#91a4b5",
+      borderStyle: "solid",
+      color: '#fff'
     },
     containerMask: {
       flexDirection: "row",
+      flexWrap: 'wrap',
       marginBottom: 6,
       marginLeft: 10,
-      marginRight: 10,
+      paddingRight: 10,
     },
     errorMessage: {
       justifyContent:'center',
       fontSize: 12,
       alignSelf: "flex-start",
-      marginLeft: 15,
+      marginLeft: 5,
       color: "#f00",
     },
     button: {
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#000',
+      backgroundColor: '#fff',
       width: 150,
       height: 45,
       borderRadius: 25,
@@ -78,7 +89,14 @@ const styles = StyleSheet.create({
     },
     titulo: {
       justifyContent: "flex-start",
-      color: '#555'
+      color: '#fff',
+      fontSize: 30,
+    },
+    textBottom: {
+      color: '#fff'
+    },
+    inputLogin: {
+      color: "#fff",
     }
   });
 

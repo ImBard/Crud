@@ -18,7 +18,7 @@ function MyStack() {
         headerTitleStyle: { fontWeight: 'bold' },
         headerTitleAlign: 'center'
       }}>
-      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Store List" component={Login} />
       <Stack.Screen name="Post" component={Post} />
       <Stack.Screen name='lista' component={lista}/>
     </Stack.Navigator>

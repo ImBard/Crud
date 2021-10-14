@@ -1,5 +1,8 @@
 import axios from 'axios';
+
 class UserService {
+    
+    state
 
     async Cadastrar(data) {
         return axios({
